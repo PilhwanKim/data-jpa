@@ -280,4 +280,10 @@ class MemberRepositoryTest {
         //        member0_.username=? for update
         List<Member> member1 = memberRepository.findLockByUsername("member1");
     }
+
+    @Test
+    public void callCustom() {
+        // 실행만 확인하기
+        List<Member> members = memberRepository.findMemberCustom();
+    }
 }
