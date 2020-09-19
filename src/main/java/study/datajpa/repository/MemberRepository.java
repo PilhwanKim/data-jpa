@@ -1,5 +1,6 @@
 package study.datajpa.repository;
 
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.*;
@@ -71,5 +72,14 @@ public interface MemberRepository extends JpaRepository<Member, Long>, MemberRep
 //    List<UserNameOnly> findProjectionByUsername(@Param("username") String username);
 //    List<T> findProjectionByUsername(@Param("username") String username);
     <T> List<T> findProjectionByUsername(@Param("username") String username, Class<T> type);
+
+    @Query(value = "select * from member where username = ?", nativeQuery = true)
+    Member findByNativeQuery(String username);
+
+    @Query(value = "select m.member_id as id, m.username as userName, t.name as teamName " +
+            "from member m left join team t",
+            countQuery = "select count(*) from member",
+            nativeQuery = true)
+    Page<MemberProjection> findByNativeProjection(Pageable pageable);
 
 }
